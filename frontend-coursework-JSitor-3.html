@@ -1,0 +1,226 @@
+<!doctype html><html><head><style type="text/css">body {
+    font-family: sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to right, #a7ffeb, #EC80FF); 
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+.icon-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 175px;
+    height: 300px;
+    background-color: #17202A;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease; 
+}
+.icon-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+}
+.icon-box i {
+    font-size: 60px;
+    margin-bottom: 15px;
+    color: #3498db; 
+    transition: color 0.3s ease; 
+}
+.icon-box:hover i {
+    color: #2980b9; 
+    animation: pulse 1s infinite alternate; 
+}
+.icon-box span {
+    font-size: 16px;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+.icon-box:hover span {
+    color: #17202A; 
+}
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+.task-menu {
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 400px;
+    max-height: 80vh; 
+    overflow-y: auto; 
+    z-index: 1000;
+    display: none; 
+}
+.task-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.task-menu-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+#closeTaskMenu {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+#taskList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#taskList li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+#taskList li:last-child {
+    border-bottom: none;
+}
+</style></head><body><!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Иконки</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+	<div class="container">
+		<div class="icon-box" data-category="marketing">
+			<i class="fas fa-chart-line"></i>
+			<span>Маркетинг</span>
+		</div>
+		<div class="icon-box" data-category="management">
+			<i class="fas fa-tasks"></i>
+			<span>Менеджмент</span>
+		</div>
+		<div class="icon-box" data-category="development">
+			<i class="fas fa-code"></i>
+			<span>Разработка</span>
+		</div>
+		<div class="icon-box" data-category="design">
+			<i class="fas fa-palette"></i>
+			<span>Дизайн</span>
+		</div>
+	</div>
+	<script src="script.js"></script>
+</body>
+</html><script type="text/javascript">document.addEventListener('DOMContentLoaded', () => {
+  const iconBoxes = document.querySelectorAll('.icon-box');
+  const taskData = {
+    marketing: [
+      { task: 'Разработать стратегию привличения клиентов', status: 'В процессе', deadline: '2025-03-15' },
+      { task: 'Провести анализ конкурентов', status: 'Выполнено', deadline: '2025-02-01' }
+    ],
+    management: [
+      { task: 'Организовать встречу команды', status: 'Запланировано', deadline: '2025-02-10' },
+      { task: 'Подготовить отчет о процессе рпзработки логотипа компании', status: 'В процессе', deadline: '2025-02-28' }
+    ],
+    development: [], 
+    design: [
+      { task: 'разработать дизайн официального сайта компании', status: 'Выполнено', deadline: '2025-01-25' },
+      { task: 'Разработать логотип для нпшей компании', status: 'В процессе', deadline: '2025-02-15' }
+    ]
+  };
+  iconBoxes.forEach(box => {
+    box.addEventListener('click', () => {
+      const category = box.dataset.category;
+      let windowContent = `
+                <!DOCTYPE html>
+                <html lang="ru">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Задачи - ${category.toUpperCase()}</title>
+                    <style>
+                       body {
+                            font-family: sans-serif;
+                            margin: 0;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 100vh;
+                            background: linear-gradient(to right, #a7ffeb, #EC80FF);
+                        }
+
+                        .task-list {
+                            background-color: #fff;
+                            border-radius: 10px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                            padding: 20px;
+                            width: 600px;
+                        }
+
+                        .task-list h2 {
+                            text-align: center;
+                            margin-bottom: 20px;
+                        }
+
+                        .task-item {
+                            padding: 10px;
+                            border-bottom: 1px solid #eee;
+                        }
+
+                        .task-item:last-child {
+                            border-bottom: none;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="task-list">
+                        <h2>Задачи - ${category.toUpperCase()}</h2>
+            `;
+      const tasks = taskData[category];
+      if (tasks && tasks.length > 0) {
+        tasks.forEach(task => {
+          windowContent += `
+                        <div class="task-item">
+                            <div>Задача: ${task.task}</div>
+                            <div>Статус: ${task.status}</div>
+                            <div>Дедлайн: ${task.deadline}</div>
+                        </div>
+                    `;
+        });
+      } else {
+        windowContent += `<p>Нет задач для этой категории.</p>`;
+      }
+      windowContent += `
+                    </div>
+                </body>
+                </html>
+            `;
+      const newWindow = window.open('', '_blank');
+      newWindow.document.write(windowContent);
+      newWindow.document.close();
+    });
+  });
+});
+</script></body><html>
